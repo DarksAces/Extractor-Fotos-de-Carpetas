@@ -2,45 +2,58 @@ import os
 import re
 import shutil
 
-def rename_files_and_move_up(directory, destination_directory):
-    # Iterar sobre cada carpeta dentro del directorio dado
-    for folder_name in os.listdir(directory):
-        folder_path = os.path.join(directory, folder_name)
-        # Verificar si es una carpeta
-        if os.path.isdir(folder_path):
-            new_folder_name = folder_name.translate(str.maketrans('', '', 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'))  # Eliminar letras del nombre de la carpeta
-            new_folder_name = re.sub(r'(?<=\d)\.(?=\d)', ',', new_folder_name)  # Reemplazar "." entre números por ","
-            new_folder_name = re.sub(r'[^0-9.,]', '', new_folder_name)  # Mantener solo números y comas
-            
-            # Cambiar el nombre de los archivos dentro de la carpeta
-            file_names = os.listdir(folder_path)
-            for i, file_name in enumerate(file_names, 1):
-                file_path = os.path.join(folder_path, file_name)
-                # Cambiar el nombre del archivo y agregar la extensión .jpg
-                new_file_name = f"{new_folder_name} {i}.jpg"
-                # Verificar si el nombre ya existe y agregar un número secuencial si es necesario
-                while os.path.exists(os.path.join(folder_path, new_file_name)):
-                    i += 1
-                    new_file_name = f"{new_folder_name} {i}.png"
-                os.rename(file_path, os.path.join(folder_path, new_file_name))
-            
-            # Mover archivos a la carpeta superior
-            for file_name in os.listdir(folder_path):
-                file_path = os.path.join(folder_path, file_name)
-                if os.path.isfile(file_path):
-                    shutil.move(file_path, os.path.join(directory, file_name))
-            
-            # Eliminar la carpeta y su contenido
-            shutil.rmtree(folder_path)
-    
-    # Mover la carpeta a otro directorio después de procesar todos los archivos
-    shutil.move(directory, destination_directory)
+def sanitize_folder_name(name):
+    # Eliminar letras y mantener solo números, puntos y comas
+    name = re.sub(r'[a-zA-Z]', '', name)
+    name = re.sub(r'(?<=\d)\.(?=\d)', ',', name)
+    return re.sub(r'[^0-9.,]', '', name)
 
-# Directorio donde se encuentran las carpetas
-directory = ""
+def rename_files_and_move_up(source_dir, dest_dir):
+    if not os.path.isdir(source_dir):
+        raise ValueError(f"El directorio fuente '{source_dir}' no existe o no es válido.")
+    if not os.path.isdir(dest_dir):
+        os.makedirs(dest_dir)
 
-# Directorio de destino para mover la carpeta
-destination_directory = ""
+    for folder_name in os.listdir(source_dir):
+        folder_path = os.path.join(source_dir, folder_name)
+        if not os.path.isdir(folder_path):
+            continue
+        
+        sanitized_name = sanitize_folder_name(folder_name)
+        file_names = sorted(os.listdir(folder_path))
+        
+        for index, file_name in enumerate(file_names, 1):
+            old_path = os.path.join(folder_path, file_name)
+            if not os.path.isfile(old_path):
+                continue
+            new_file_name = f"{sanitized_name} {index}.jpg"
+            target_path = os.path.join(folder_path, new_file_name)
 
-# Llamar a la función para renombrar archivos, moverlos y mover la carpeta
-rename_files_and_move_up(directory, destination_directory)
+            # Evitar sobrescrituras
+            count = index
+            while os.path.exists(target_path):
+                count += 1
+                new_file_name = f"{sanitized_name} {count}.jpg"
+                target_path = os.path.join(folder_path, new_file_name)
+            
+            os.rename(old_path, target_path)
+
+        # Mover archivos al directorio raíz
+        for renamed_file in os.listdir(folder_path):
+            src_file = os.path.join(folder_path, renamed_file)
+            if os.path.isfile(src_file):
+                shutil.move(src_file, os.path.join(source_dir, renamed_file))
+
+        # Eliminar la carpeta vacía
+        shutil.rmtree(folder_path)
+
+    # Mover la carpeta raíz procesada al destino
+    final_dest = os.path.join(dest_dir, os.path.basename(source_dir))
+    if os.path.exists(final_dest):
+        shutil.rmtree(final_dest)
+    shutil.move(source_dir, dest_dir)
+
+# Uso del script
+source_directory = "ruta/a/directorio"
+destination_directory = "ruta/a/destino"
+rename_files_and_move_up(source_directory, destination_directory)
