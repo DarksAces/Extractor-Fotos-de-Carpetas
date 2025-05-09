@@ -28,19 +28,15 @@ Script en Python para **extraer imágenes de subcarpetas**, renombrarlas con el 
 
 1. Coloca tus carpetas dentro de un directorio raíz, por ejemplo:
 
-Capitulos/
-├── 01. Introducción/
-│ ├── imagen1.png
-│ └── imagen2.jpg
-├── 02. Acción/
-│ └── imagen1.jpg
+  Capitulos/01. Introducción/imagen1.png, imagen2.jpg; 02. Acción/imagen1.jpg
+
 
 ⚠️ IMPORTANTE (Windows): Usa doble barra invertida (\\) o el prefijo r para evitar errores:
 
 python
 Copiar
 Editar
-source_directory = r"C:\Users\Usuario\Mangas\Capitulos\1.Por Preparar\F
+source_directory = "C:\Users\Usuario\Mangas\Capitulos\1.Por Preparar\F
 
 Ejecuta el script desde terminal o tu editor:
 
