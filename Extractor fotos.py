@@ -1,6 +1,8 @@
 import os
 import re
 import shutil
+import tkinter as tk
+from tkinter import filedialog, messagebox
 
 def sanitize_folder_name(name):
     # Eliminar letras y mantener solo números, puntos y comas
@@ -53,7 +55,27 @@ def rename_files_and_move_up(source_dir, dest_dir):
         shutil.rmtree(final_dest)
     shutil.move(source_dir, dest_dir)
 
-# Uso del script
-source_directory = "ruta/a/directorio"
-destination_directory = "ruta/a/destino"
-rename_files_and_move_up(source_directory, destination_directory)
+def main():
+    root = tk.Tk()
+    root.withdraw()  # Oculta la ventana principal
+
+    messagebox.showinfo("Selecciona", "Selecciona la carpeta con subcarpetas a procesar")
+    source_directory = filedialog.askdirectory(title="Seleccionar directorio fuente")
+    if not source_directory:
+        messagebox.showerror("Cancelado", "No se seleccionó un directorio fuente.")
+        return
+
+    messagebox.showinfo("Selecciona", "Selecciona la carpeta de destino final")
+    destination_directory = filedialog.askdirectory(title="Seleccionar directorio destino")
+    if not destination_directory:
+        messagebox.showerror("Cancelado", "No se seleccionó un directorio de destino.")
+        return
+
+    try:
+        rename_files_and_move_up(source_directory, destination_directory)
+        messagebox.showinfo("Éxito", "Las imágenes fueron procesadas correctamente.")
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+
+if __name__ == "__main__":
+    main()
