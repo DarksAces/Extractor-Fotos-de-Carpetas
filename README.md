@@ -1,103 +1,95 @@
-# 📁 Folders-Extractor (English)
+# 📁 Folders-Extractor
 
-Python script to extract images from subfolders, rename them with the containing folder's name, and move them to the root directory. Ideal for organizing manga chapters, scans, or images distributed across multiple folders.
+## English
 
-⚙️ What does this script do?
-📂 Goes through all subfolders within a directory.
+Python script to extract images from subfolders, rename them using the parent folder’s name, and move them to the root directory. Perfect for organizing manga chapters, scans, or large batches of images across multiple folders.
 
-🧹 Cleans the name of each folder (keeps only numbers, dots, and commas).
+### ⚙️ What does this script do?
 
-🖼️ Renames the images inside each folder as: FolderName 1.jpg, FolderName 2.jpg, etc.
+- 📂 Goes through all subfolders inside a selected directory.
+- 🧹 Cleans folder names (keeps only numbers, dots, and commas).
+- 🖼️ Renames images as: `FolderName 1.jpg`, `FolderName 2.jpg`, etc.
+- 🚚 Moves all images to the main directory.
+- 🧼 Deletes the empty folders after moving the files.
+- 📦 Moves the entire processed directory to a destination folder chosen by the user.
 
-🚚 Moves all images to the main directory.
+### 🖥️ Requirements
 
-🧹 Deletes the empty folders after moving the files.
+- Python 3.x
+- Uses only Python’s standard libraries: `os`, `re`, `shutil`, `tkinter`
+- ✅ No external libraries required
 
-📦 Finally, moves the processed directory to another destination folder.
+### 📝 Usage
 
-🖥️ Requirements
-Python 3.x
+1. Run the script:
 
-Uses only Python's standard library modules:
-os, re, shutil
-(No need to install external libraries)
-
-📝 Usage
-Place your folders inside a root directory, for example:
-
-Chapters/01. Introduction/image1.png, image2.jpg; 02. Action/image1.jpg
-
-⚠️ IMPORTANT (Windows): Use double backslashes (\):
-
-source_directory = "C:\Users\Username\Mangas\Chapters\1.Preparing\F
-
-Run the script from terminal or your editor:
-
+```bash
 python extractor.py
+```
 
-🧼 Expected result
-After running the script:
+2. A dialog will appear asking you to:
+   - Select the root folder containing the subfolders with images
+   - Select the destination folder where the processed root folder will be moved
 
-All image files will be in the root directory, renamed.
+### ⚠️ NOTE (Windows)
 
-Example:
+You **no longer need to edit any paths manually**. Everything is done through a folder selection dialog.
 
+### 🧼 Expected Result
+
+After running the script, all image files will be in the root directory, renamed like:
+
+```
 01 1.jpg
 01 2.jpg
 02 1.jpg
-
-
-
-
-# 📁 Folders-Extractor (Español)
-
-
-Script en Python para **extraer imágenes de subcarpetas**, renombrarlas con el nombre de la carpeta contenedora y moverlas al directorio raíz. Ideal para organizar capítulos de manga, escaneos o imágenes distribuidas por carpetas.
+```
 
 ---
 
-## ⚙️ ¿Qué hace este script?
+## Español
 
-- 📂 Recorre todas las subcarpetas dentro de un directorio.
+Script en Python para extraer imágenes de subcarpetas, renombrarlas con el nombre de la carpeta contenedora y moverlas al directorio raíz. Ideal para organizar capítulos de manga, escaneos o imágenes distribuidas por carpetas.
+
+### ⚙️ ¿Qué hace este script?
+
+- 📂 Recorre todas las subcarpetas dentro de un directorio seleccionado.
 - 🧹 Limpia el nombre de cada carpeta (manteniendo solo números, puntos y comas).
-- 🖼️ Renombra las imágenes dentro de cada carpeta como: `NombreCarpeta 1.jpg`, `NombreCarpeta 2.jpg`, etc.
+- 🖼️ Renombra las imágenes como: `NombreCarpeta 1.jpg`, `NombreCarpeta 2.jpg`, etc.
 - 🚚 Mueve todas las imágenes al directorio principal.
-- 🧹 Elimina las carpetas vacías después de mover los archivos.
-- 📦 Finalmente, mueve el directorio procesado a otra carpeta destino.
+- 🧼 Elimina las carpetas vacías después de mover los archivos.
+- 📦 Mueve la carpeta raíz procesada a una carpeta destino que el usuario elige.
 
----
+### 🖥️ Requisitos
 
-## 🖥️ Requisitos
+- Python 3.x
+- Usa solo módulos de la biblioteca estándar: `os`, `re`, `shutil`, `tkinter`
+- ✅ No necesitas instalar librerías externas
 
-- Python 3.x  
-- Usa solo módulos de la **biblioteca estándar** de Python:  
-  `os`, `re`, `shutil`  
-  *(No necesitas instalar librerías externas)*
+### 📝 Uso
 
----
+1. Ejecuta el script:
 
-## 📝 Uso
-
-1. Coloca tus carpetas dentro de un directorio raíz, por ejemplo:
-
-  Capitulos/01. Introducción/imagen1.png, imagen2.jpg; 02. Acción/imagen1.jpg
-
-
-⚠️ IMPORTANTE (Windows): Usa doble barra invertida (\\):
-
-source_directory = "C:\Users\Usuario\Mangas\Capitulos\1.Por Preparar\F
-
-Ejecuta el script desde terminal o tu editor:
-
+```bash
 python extractor.py
+```
 
-🧼 Resultado esperado
-Después de ejecutar el script:
+2. Aparecerán dos ventanas para:
+   - Seleccionar la carpeta raíz con subcarpetas
+   - Seleccionar la carpeta destino donde se moverá la carpeta procesada
 
-Todos los archivos de imagen estarán en el directorio raíz renombrados.
+### ⚠️ IMPORTANTE (Windows)
+
+Ya **no necesitas modificar rutas manualmente**. Todo se hace con ventanas emergentes de selección de carpetas.
+
+### 🧼 Resultado esperado
+
+Después de ejecutar el script, todas las imágenes estarán renombradas en el directorio raíz.
 
 Ejemplo:
 
+```
 01 1.jpg
 01 2.jpg
 02 1.jpg
+```
